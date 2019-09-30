@@ -1,7 +1,8 @@
 apiVersion: k8s.devopsdays.com/v1alpha1
 kind: WeatherReport
 metadata:
-  name: example-weatherreport
+  name: brasil-weatherreport
 spec:
   # Add fields here
-  size: 3
+  city: SaoPaulo
+  days: 1
