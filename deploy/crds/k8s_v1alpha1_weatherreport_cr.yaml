@@ -1,0 +1,8 @@
+apiVersion: k8s.devopsdays.com/v1alpha1
+kind: WeatherReport
+metadata:
+  name: brasil-weatherreport
+spec:
+  # Add fields here
+  city: SaoPaulo
+  days: 1
