@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: weather-operator
+  template:
+    metadata:
+      labels:
+        name: weather-operator
+    spec:
+      serviceAccountName: weather-operator
+      containers:
+        - name: weather-operator
+          # Replace this with the built image name
+          image: krol/weather-operator:1.0
+          command:
+            - weather-operator
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "weather-operator"
