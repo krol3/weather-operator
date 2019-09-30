@@ -10,17 +10,19 @@ import (
 // WeatherReportSpec defines the desired state of WeatherReport
 // +k8s:openapi-gen=true
 type WeatherReportSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
+	City string `json:"city"`
+	Days int    `json:"days"`
 }
 
 // WeatherReportStatus defines the observed state of WeatherReport
 // +k8s:openapi-gen=true
 type WeatherReportStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
+	State string `json:"state"`
+	Pod   string `json:"pod"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -32,7 +34,7 @@ type WeatherReport struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   WeatherReportSpec   `json:"spec,omitempty"`
+	Spec   WeatherReportSpec   `json:"spec"`
 	Status WeatherReportStatus `json:"status,omitempty"`
 }
 
@@ -41,7 +43,7 @@ type WeatherReport struct {
 // WeatherReportList contains a list of WeatherReport
 type WeatherReportList struct {
 	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
+	metav1.ListMeta `json:"metadata"`
 	Items           []WeatherReport `json:"items"`
 }
 

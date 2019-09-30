@@ -2,6 +2,9 @@ package weatherreport
 
 import (
 	"context"
+	"fmt"
+	"strconv"
+	"time"
 
 	k8sv1alpha1 "github.com/krol3/weather-operator/pkg/apis/k8s/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
@@ -131,22 +134,32 @@ func (r *ReconcileWeatherReport) Reconcile(request reconcile.Request) (reconcile
 
 // newPodForCR returns a busybox pod with the same name/namespace as the cr
 func newPodForCR(cr *k8sv1alpha1.WeatherReport) *corev1.Pod {
+	url := fmt.Sprintf("http://wttr.in/%s?%d", cr.Spec.City, cr.Spec.Days)
+
 	labels := map[string]string{
-		"app": cr.Name,
+		"app":  cr.Name,
+		"city": cr.Spec.City,
+		"days": strconv.Itoa(cr.Spec.Days),
 	}
 	return &corev1.Pod{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Pod",
+			APIVersion: "corev1",
+		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      cr.Name + "-pod",
+			Name:      "weather-report-" + strconv.Itoa(time.Now().Nanosecond()),
 			Namespace: cr.Namespace,
 			Labels:    labels,
 		},
 		Spec: corev1.PodSpec{
 			Containers: []corev1.Container{
 				{
-					Name:    "busybox",
-					Image:   "busybox",
-					Command: []string{"sleep", "3600"},
-				},
+					Name:    "weather",
+					Image:   "tutum/curl",
+					Command: []string{"sh", "-c", "curl -s " + url + " && sleep 3600"},
+					Env: []corev1.EnvVar{
+						{Name: "WEATHER", Value: "Weather report " + cr.Spec.City + " - " + url},
+					}},
 			},
 		},
 	}
