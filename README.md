@@ -1,1 +1,1 @@
-# weatherreport-operator
+# weather-operator

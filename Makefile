@@ -9,6 +9,7 @@ create:
 crd:
 	operator-sdk add api --api-version=k8s.devopsdays.com/v1alpha1 --kind=WeatherReport
 
+# Custom Controller
 controller:
 	operator-sdk add controller --api-version=k8s.devopsdays.com/v1alpha1 --kind=WeatherReport
 
