@@ -12,8 +12,9 @@ import (
 type WeatherReportSpec struct {
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
-	City string `json:"city"`
-	Days int    `json:"days"`
+	City     string `json:"city"`
+	Days     int    `json:"days"`
+	Replicas int32  `json:"replicas"`
 }
 
 // WeatherReportStatus defines the observed state of WeatherReport
